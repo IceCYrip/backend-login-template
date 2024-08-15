@@ -6,6 +6,8 @@ const { Users } = require('../models')
 const errorHandler = require('../utils/error')
 const emailService = require('../utils/email')
 
+const { generateToken } = require('../utils/jwt')
+
 const frontendURL = 'http://localhost:3000'
 
 //Initialise admin User if it doesn't exist
@@ -92,6 +94,45 @@ router.post('/register', async (req, res) => {
       console.log(error)
       errorHandler(500, req, res, error)
     }
+  }
+})
+
+//ROUTE: Register new user using POST "/api/login"
+router.post('/login', async (req, res) => {
+  const { username, password } = req.body
+  if (!username || !password) {
+    const error = new Error('All fields are necessary')
+    console.log(error.message)
+    errorHandler(400, req, res, err)
+  }
+
+  try {
+    const user = await Users.findOne({ where: { username } })
+
+    if (!user) {
+      const error = new Error('User not found')
+      errorHandler(401, req, res, error)
+    } else {
+      if (!user?.verified) {
+        const error = new Error(
+          'Please verify you account by clicking on the link sent to your email'
+        )
+        errorHandler(401, req, res, error)
+      } else {
+        const validPassword = await bcrypt.compare(password, user.password)
+
+        if (!validPassword) {
+          const error = new Error('Invalid username or Password')
+          errorHandler(401, req, res, error)
+        } else {
+          const token = generateToken(user)
+          res.status(200).json({ token: `Bearer ${token}` })
+        }
+      }
+    }
+  } catch (error) {
+    console.error('error: ', error)
+    errorHandler(500, req, res, error)
   }
 })
 

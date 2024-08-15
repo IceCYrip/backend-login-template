@@ -7,8 +7,14 @@ const generateToken = (user) => {
   return jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1h' }) // Token expires in 1 hour
 }
 
-const verifyToken = (token) => {
-  return jwt.verify(token, process.env.JWT_SECRET)
+const verifyToken = (token, req, res) => {
+  try {
+    const result = jwt.verify(token, process.env.JWT_SECRET)
+    return result
+  } catch (error) {
+    console.error('error: ', error)
+    errorHandler(401, req, res, error)
+  }
 }
 
 const authenticateJWT = (req, res, next) => {
@@ -18,16 +24,16 @@ const authenticateJWT = (req, res, next) => {
   if (!token) {
     const error = new Error('Invalid token.')
     errorHandler(404, req, res, error)
-  }
+  } else {
+    const user = verifyToken(token, req, res)
 
-  verifyToken(token, (err, user) => {
-    if (err) {
+    if (!!user?.username) {
+      next()
+    } else {
       const error = new Error('You do not have access to this resource.')
       errorHandler(403, req, res, error)
     }
-    req.user = user
-    next()
-  })
+  }
 }
 
 module.exports = { generateToken, authenticateJWT }
