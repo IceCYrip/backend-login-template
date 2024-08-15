@@ -11,7 +11,15 @@ const pathsForAdminOnly = ['/toggleActivation']
 
 const verifyToken = (token, req, res) => {
   try {
-    return jwt.verify(token, process.env.JWT_SECRET)
+    const result = jwt.verify(token, process.env.JWT_SECRET)
+    req.tokenUser = result
+    if (pathsForAdminOnly.includes(req.path)) {
+      if (!result?.isAdmin) {
+        const error = new Error('You do not have access to this resource.')
+        errorHandler(403, req, res, error)
+      }
+    }
+    return true
   } catch (error) {
     console.error('error: ', error)
     errorHandler(401, req, res, error)
@@ -27,18 +35,8 @@ const authenticateJWT = (req, res, next) => {
     errorHandler(404, req, res, error)
   } else {
     const user = verifyToken(token, req, res)
-    if (pathsForAdminOnly.includes(req.path)) {
-      if (!!user?.isAdmin) {
-        req.tokenUser = user
-        next()
-      } else {
-        const error = new Error('You do not have access to this resource.')
-        errorHandler(403, req, res, error)
-      }
-    } else {
-      req.tokenUser = user
-      next()
-    }
+
+    !!user && next()
   }
 }
 
