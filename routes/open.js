@@ -47,12 +47,10 @@ async function initializeAdminUser() {
   )
 }
 
-//Open Routes
-
 //ROUTE: Register new user using POST "/api/register"
 router.post('/register', async (req, res) => {
   const { fullName, username, password, mobileNumber, language } = req.body
-  if (!fullName || !username || !password || !mobileNumber || !language) {
+  if (!fullName || !username || !password || !language) {
     const error = new Error('All fields are necessary')
     console.log(error.message)
     errorHandler(400, req, res, error)

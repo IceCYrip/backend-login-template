@@ -26,9 +26,6 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        // isAlphanumeric: {
-        //   msg: 'Password must contain only letters and numbers',
-        // },
         len: {
           args: [8],
           msg: 'Password must be at least 8 characters long',
