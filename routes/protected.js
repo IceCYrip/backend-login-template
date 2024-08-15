@@ -36,6 +36,56 @@ router.get('/toggleActivation', async (req, res) => {
       }
     } catch (error) {
       console.error('error: ', error)
+      errorHandler(500, req, res, error)
+    }
+  }
+})
+
+//ROUTE: Get details depending upon user type using GET "/api/getDetails"
+router.get('/getDetails', async (req, res) => {
+  const { isAdmin, username } = req.tokenUser
+
+  if (!username) {
+    const error = new Error('Invalid request')
+    console.log(error.message)
+    errorHandler(400, req, res, err)
+  } else {
+    try {
+      if (isAdmin) {
+        const allUsers = await Users.findAll({
+          attributes: {
+            exclude: [
+              'password',
+              'mobileNumber',
+              'language',
+              'isAdmin',
+              'updatedAt',
+            ],
+          },
+          where: {
+            isAdmin: false,
+          },
+        })
+
+        res.status(200).json({ allUsers })
+      } else {
+        const user = await Users.findOne({
+          where: { username },
+          attributes: {
+            exclude: [
+              'password',
+              'mobileNumber',
+              'language',
+              'isAdmin',
+              'updatedAt',
+            ],
+          },
+        })
+        res.status(200).json(user)
+      }
+    } catch (error) {
+      console.error('error: ', error)
+      errorHandler(500, req, res, error)
     }
   }
 })
