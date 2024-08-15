@@ -9,8 +9,8 @@ const { authenticateJWT } = require('../utils/jwt')
 router.use(authenticateJWT)
 
 //ROUTE: Register new user using GET "/api/toggleActivation/:id"
-router.get('/toggleActivation/:id', async (req, res) => {
-  const { id } = req.params
+router.get('/toggleActivation', async (req, res) => {
+  const { id } = req.query
 
   if (!id) {
     const error = new Error('Invalid deactivation request')

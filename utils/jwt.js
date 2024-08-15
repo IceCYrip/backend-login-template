@@ -3,14 +3,15 @@ const errorHandler = require('../utils/error')
 require('dotenv').config()
 
 const generateToken = (user) => {
-  const payload = { id: user.id, username: user.username } // Customize payload as needed
+  const payload = { username: user.username, isAdmin: user.isAdmin } // Customize payload as needed
   return jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1h' }) // Token expires in 1 hour
 }
 
+const pathsForAdminOnly = ['/toggleActivation']
+
 const verifyToken = (token, req, res) => {
   try {
-    const result = jwt.verify(token, process.env.JWT_SECRET)
-    return result
+    return jwt.verify(token, process.env.JWT_SECRET)
   } catch (error) {
     console.error('error: ', error)
     errorHandler(401, req, res, error)
@@ -26,12 +27,17 @@ const authenticateJWT = (req, res, next) => {
     errorHandler(404, req, res, error)
   } else {
     const user = verifyToken(token, req, res)
-
-    if (!!user?.username) {
-      next()
+    if (pathsForAdminOnly.includes(req.path)) {
+      if (!!user?.isAdmin) {
+        req.tokenUser = user
+        next()
+      } else {
+        const error = new Error('You do not have access to this resource.')
+        errorHandler(403, req, res, error)
+      }
     } else {
-      const error = new Error('You do not have access to this resource.')
-      errorHandler(403, req, res, error)
+      req.tokenUser = user
+      next()
     }
   }
 }
