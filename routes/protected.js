@@ -55,11 +55,14 @@ router.get('/getDetails', async (req, res) => {
         const allUsers = await Users.findAll({
           attributes: {
             exclude: [
-              'password',
-              'mobileNumber',
-              'language',
-              'isAdmin',
-              'updatedAt',
+              [
+                'verified',
+                'password',
+                'mobileNumber',
+                'language',
+                'isAdmin',
+                'updatedAt',
+              ],
             ],
           },
           where: {
@@ -67,21 +70,29 @@ router.get('/getDetails', async (req, res) => {
           },
         })
 
-        res.status(200).json({ allUsers })
+        res.status(200).json({
+          isAdmin,
+          allUsers,
+        })
       } else {
         const user = await Users.findOne({
           where: { username },
           attributes: {
             exclude: [
+              'createdAt',
+              'id',
+              'activeFlag',
+              'verified',
               'password',
-              'mobileNumber',
-              'language',
               'isAdmin',
               'updatedAt',
             ],
           },
         })
-        res.status(200).json(user)
+        res.status(200).json({
+          user: user,
+          isAdmin,
+        })
       }
     } catch (error) {
       console.error('error: ', error)

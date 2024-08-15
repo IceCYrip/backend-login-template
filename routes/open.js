@@ -124,7 +124,7 @@ router.post('/login', async (req, res) => {
           errorHandler(401, req, res, error)
         } else {
           const token = generateToken(user)
-          res.status(200).json({ token: `Bearer ${token}` })
+          res.status(200).json({ token })
         }
       }
     }

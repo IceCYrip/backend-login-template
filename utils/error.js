@@ -1,11 +1,9 @@
 const errorHandler = (errStatus, req, res, err = null) => {
   res.status(errStatus).json({
-    error: {
-      status: errStatus,
-      path: req.path,
-      message: getErrorMessage(errStatus),
-      description: err?.message || null, // Use err.message if available
-    },
+    status: errStatus,
+    path: req.path,
+    message: getErrorMessage(errStatus),
+    description: err?.message || null, // Use err.message if available
   })
 }
 

@@ -22,7 +22,9 @@ const verifyToken = (token, req, res) => {
     return true
   } catch (error) {
     console.error('error: ', error)
-    errorHandler(401, req, res, error)
+    errorHandler(401, req, res, {
+      message: `${error.message}. Please log in again`,
+    })
   }
 }
 
@@ -32,7 +34,7 @@ const authenticateJWT = (req, res, next) => {
 
   if (!token) {
     const error = new Error('Invalid token.')
-    errorHandler(404, req, res, error)
+    errorHandler(401, req, res, error)
   } else {
     const user = verifyToken(token, req, res)
 
