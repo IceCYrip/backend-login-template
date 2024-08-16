@@ -2,7 +2,7 @@ const htmlToSend = (userDetails) => {
   const backendURL = 'http://localhost:5000'
 
   switch (userDetails?.language) {
-    case 'en':
+    case 'EN':
       return `<div>
      <label>Dear ${userDetails?.fullName},</label> 
      <br />
@@ -15,7 +15,7 @@ const htmlToSend = (userDetails) => {
      <label>Thanks</label>
    </div>`
 
-    case 'de':
+    case 'DE':
       return `<div>
     <label>Lieber ${userDetails?.fullName},</label> 
     <br />
