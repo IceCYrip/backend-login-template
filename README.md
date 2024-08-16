@@ -2,6 +2,8 @@
 
 **This project utilizes Express.js for building the server-side application and leverages MySQL for database management.**
 
+**Please run the project with the command: `npm run server`**
+
 ### User Model
 
 The User model within the application represents a registered user and stores their information:
