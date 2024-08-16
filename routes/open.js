@@ -117,14 +117,19 @@ router.post('/login', async (req, res) => {
         )
         errorHandler(401, req, res, error)
       } else {
-        const validPassword = await bcrypt.compare(password, user.password)
-
-        if (!validPassword) {
-          const error = new Error('Invalid username or Password')
-          errorHandler(401, req, res, error)
+        if (user?.activeFlag == 'N') {
+          const error = new Error('Account Disabled.')
+          errorHandler(403, req, res, error)
         } else {
-          const token = generateToken(user)
-          res.status(200).json({ token })
+          const validPassword = await bcrypt.compare(password, user.password)
+
+          if (!validPassword) {
+            const error = new Error('Invalid username or Password')
+            errorHandler(401, req, res, error)
+          } else {
+            const token = generateToken(user)
+            res.status(200).json({ token })
+          }
         }
       }
     }
