@@ -27,7 +27,7 @@ async function initializeAdminUser() {
   const hashedPassword = await bcrypt.hash(adminUser?.password, salt)
 
   const [user, created] = await Users.findOrCreate({
-    where: { username: 'admin@gmail.com' },
+    where: { isAdmin: true },
     defaults: {
       activeFlag: 'Y',
       verified: true,
@@ -95,7 +95,7 @@ router.post('/register', async (req, res) => {
   }
 })
 
-//ROUTE: Register new user using POST "/api/login"
+//ROUTE: Login using POST "/api/login"
 router.post('/login', async (req, res) => {
   const { username, password } = req.body
   if (!username || !password) {
@@ -139,7 +139,7 @@ router.post('/login', async (req, res) => {
   }
 })
 
-//ROUTE: Register new user using GET "/api/verify/:id"
+//ROUTE: Verify user using GET "/api/verify/:id"
 router.get('/verify/:id', async (req, res) => {
   const { id } = req.params
 
