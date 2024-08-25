@@ -4,6 +4,8 @@ const db = require('./models')
 const cors = require('cors')
 const { initializeAdminUser } = require('./routes/open')
 
+const dbConfig = require('./models').dbConfig
+
 const app = express()
 const port = 5000
 
@@ -21,7 +23,9 @@ checkAndCreateDatabase().then(() => {
   db.sequelize
     .authenticate()
     .then(() => {
-      console.log('Connection has been established successfully.')
+      console.log(
+        `Connection has been established with ${dbConfig?.env} environment successfully.`
+      )
       return db.sequelize
         .sync
         // { alter: true }
