@@ -9,10 +9,9 @@ const app = express()
 // const port = 5000
 const port = 443
 
-// Apply CORS middleware
-app.use(cors({ origin: true }))
-
 app.use(express.json())
+// Apply CORS middleware
+app.use(cors())
 
 app.use('/api', require('./routes/open')?.router)
 app.use('/api', require('./routes/protected'))
