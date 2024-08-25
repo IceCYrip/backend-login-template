@@ -24,8 +24,9 @@ app.options('*', cors(corsOptions))
 // Body parser middleware
 app.use(express.json())
 
-app.use('/api', require('./routes/open')?.router)
-app.use('/api', require('./routes/protected'))
+// app.use('/api', require('./routes/open')?.router)
+app.use('/', require('./routes/open')?.router)
+app.use('/', require('./routes/protected'))
 
 app.get('/test', (req, res) => {
   res.json({ message: 'CORS is working!' })
