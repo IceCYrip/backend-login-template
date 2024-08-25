@@ -12,7 +12,11 @@ const port = 5000
 const corsOptions = {
   origin: 'https://assigment-login-template.vercel.app',
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
+  allowedHeaders: [
+    'Content-Type',
+    'Authorization',
+    'Access-Control-Allow-Origin',
+  ],
 }
 
 // Apply CORS middleware
