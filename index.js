@@ -8,22 +8,17 @@ const { initializeAdminUser } = require('./routes/open')
 const app = express()
 const port = 5000
 
-// Enable CORS after JSON parsing
+require('dotenv').config()
+
 app.use(express.json())
-// app.use(cors({ origin: 'https://assigment-login-template.vercel.app' })) // Update with your frontend origin
-app.use(cors({ origin: '*' })) // Update with your frontend origin
+app.use(cors())
 
-app.options('*', cors()) // Handle preflight requests
+require('dotenv').config()
 
-app.get('/test', (req, res) => {
-  res.send('CORS is configured properly')
-})
-// app.use('/api', require('./routes/open')?.router)
-app.use('/', require('./routes/open')?.router)
-app.use('/', require('./routes/protected'))
+// Available Routes
 
-app.get('/test', (req, res) => {
-  res.json({ message: 'CORS is working!' })
+app.get('/', (req, res) => {
+  res.send('Hello World!')
 })
 
 checkAndCreateDatabase().then(() => {
