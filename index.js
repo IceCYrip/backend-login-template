@@ -13,13 +13,12 @@ require('dotenv').config()
 app.use(express.json())
 app.use(cors())
 
-require('dotenv').config()
-
 // Available Routes
-
 app.get('/', (req, res) => {
   res.send('Hello World!')
 })
+app.use('/', require('./routes/open')?.router)
+app.use('/', require('./routes/protected'))
 
 checkAndCreateDatabase().then(() => {
   db.sequelize
