@@ -16,6 +16,7 @@ app.use(cors())
 app.get('/', (req, res) => {
   res.send('Hello World!')
 })
+
 app.use('/', require('./routes/open')?.router)
 app.use('/', require('./routes/protected'))
 

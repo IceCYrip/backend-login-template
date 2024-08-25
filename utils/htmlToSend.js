@@ -9,7 +9,7 @@ const htmlToSend = (userDetails) => {
      <label>Dear ${userDetails?.fullName},</label> 
      <br />
      <br />
-     <label>Please <a href='${backendURL}/api/verify/${userDetails?.id}' >
+     <label>Please <a href='${backendURL}/verify/${userDetails?.id}' >
        click here
      </a>to verify your email.</label>
      <br />
