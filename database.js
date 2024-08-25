@@ -8,6 +8,7 @@ async function checkAndCreateDatabase() {
       host: dbConfig.host,
       user: dbConfig.username,
       password: dbConfig.password,
+      port: dbConfig.port,
     })
 
     const [rows] = await connection.query(
