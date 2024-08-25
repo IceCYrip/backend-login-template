@@ -2,13 +2,10 @@ const express = require('express')
 const checkAndCreateDatabase = require('./database')
 const db = require('./models')
 const cors = require('cors')
-require('dotenv').config()
 const { initializeAdminUser } = require('./routes/open')
 
 const app = express()
 const port = 5000
-
-require('dotenv').config()
 
 app.use(express.json())
 app.use(cors())

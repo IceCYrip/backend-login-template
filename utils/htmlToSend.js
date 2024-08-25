@@ -1,5 +1,7 @@
+require('dotenv').config()
+
 const htmlToSend = (userDetails) => {
-  const backendURL = 'http://localhost:5000'
+  const backendURL = process.env.DB_BACKEND_HOST
 
   switch (userDetails?.language) {
     case 'EN':
