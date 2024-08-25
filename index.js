@@ -6,8 +6,7 @@ require('dotenv').config()
 const { initializeAdminUser } = require('./routes/open')
 
 const app = express()
-// const port = 5000
-const port = 443
+const port = 5000
 
 // CORS configuration
 const corsOptions = {
