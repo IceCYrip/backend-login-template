@@ -24,7 +24,12 @@ const port = 5000
 // // Body parser middleware
 // app.use(express.json())
 
-app.use(cors())
+app.use(cors({ origin: 'https://assigment-login-template.vercel.app' }))
+app.options('*', cors()) // Handle preflight requests
+
+app.get('/test', (req, res) => {
+  res.send('CORS is configured properly')
+})
 app.use(express.json())
 
 // app.use('/api', require('./routes/open')?.router)
