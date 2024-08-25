@@ -6,22 +6,11 @@ require('dotenv').config()
 const { initializeAdminUser } = require('./routes/open')
 
 const app = express()
-const port = 5000
-
-// CORS configuration
-const corsOptions = {
-  origin: 'https://assigment-login-template.vercel.app',
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: [
-    'Content-Type',
-    'Authorization',
-    'Access-Control-Allow-Origin',
-  ],
-}
+// const port = 5000
+const port = 443
 
 // Apply CORS middleware
-app.use(cors(corsOptions))
-app.options('*', cors(corsOptions)) // Handle preflight requests
+app.use(cors())
 
 app.use(express.json())
 
