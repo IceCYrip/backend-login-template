@@ -22,7 +22,7 @@ const htmlToSend = (userDetails) => {
     <label>Lieber ${userDetails?.fullName},</label> 
     <br />
     <br />
-    <label>Bitte <a href='${backendURL}/api/verify/${userDetails?.id}' >
+    <label>Bitte <a href='${backendURL}/verify/${userDetails?.id}' >
       klicken Sie hier,
     </a>um Ihre E-Mail-Adresse zubestätigen.</label>
     <br />
