@@ -2,7 +2,7 @@
   "name": "gophygital-assignment",
   "version": "1.0.0",
   "description": "This is an assignment for gophygital",
-  "main": "server.js",
+  "main": "index.js",
   "scripts": {
     "server": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
