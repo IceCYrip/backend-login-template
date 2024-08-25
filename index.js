@@ -8,16 +8,19 @@ const { initializeAdminUser } = require('./routes/open')
 const app = express()
 const port = 5000
 
-// Open CORS configuration
-const corsOptions = {
-  origin: '*', // Allow all origins
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Allowed methods
-  allowedHeaders: ['Content-Type', 'Authorization'], // Allowed headers
-}
+app.use(cors())
+app.use(express.json())
 
-// Apply CORS middleware
-app.use(cors(corsOptions))
-app.options('*', cors(corsOptions)) // Handle preflight requests
+app.use(function (req, res, next) {
+  //Enabling CORS
+  res.header('Access-Control-Allow-Origin', '*')
+  res.header('Access-Control-Allow-Methods', 'GET,HEAD,OPTIONS,POST,PUT')
+  res.header(
+    'Access-Control-Allow-Headers',
+    'Origin, X-Requested-With, Content-Type, Accept, x-client-key, x-client-token, x-client-secret, Authorization'
+  )
+  next()
+})
 
 app.use('/api', require('./routes/open')?.router)
 app.use('/api', require('./routes/protected'))
