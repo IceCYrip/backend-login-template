@@ -7,8 +7,9 @@ const errorHandler = require('../utils/error')
 const emailService = require('../utils/email')
 
 const { generateToken } = require('../utils/jwt')
+require('dotenv').config()
 
-const frontendURL = 'http://localhost:3000'
+const frontendURL = process.env.DB_FRONTEND_HOST
 
 //Initialise admin User if it doesn't exist
 async function initializeAdminUser() {
