@@ -8,19 +8,18 @@ const { initializeAdminUser } = require('./routes/open')
 const app = express()
 const port = 5000
 
-app.use(cors())
-app.use(express.json())
+// CORS configuration
+const corsOptions = {
+  origin: 'https://assigment-login-template.vercel.app',
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+}
 
-app.use(function (req, res, next) {
-  //Enabling CORS
-  res.header('Access-Control-Allow-Origin', '*')
-  res.header('Access-Control-Allow-Methods', 'GET,HEAD,OPTIONS,POST,PUT')
-  res.header(
-    'Access-Control-Allow-Headers',
-    'Origin, X-Requested-With, Content-Type, Accept, x-client-key, x-client-token, x-client-secret, Authorization'
-  )
-  next()
-})
+// Apply CORS middleware
+app.use(cors(corsOptions))
+app.options('*', cors(corsOptions)) // Handle preflight requests
+
+app.use(express.json())
 
 app.use('/api', require('./routes/open')?.router)
 app.use('/api', require('./routes/protected'))
